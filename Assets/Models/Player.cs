@@ -1,25 +1,53 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Assets.Models;
 using Assets.EventArgs;
+using System;
 
 public class Player : MonoBehaviour
 {
     #region Сharacteristics 
     public float Health;
     public float Speed;
-
-    [SerializeField]
-    private float ForcePush;
-
-    [SerializeField]
-    private float Bash;//Сила толчка завист от силы удара. Надо сделать
     #endregion
 
-    public bool IsFreeze;
+    #region State
+    /// <summary>
+    /// Блокировка движения на время
+    /// </summary>
+    [SerializeField]
+    private float Bash;
+
+
+    #endregion
+
+    #region Moving
+    /// <summary>
+    /// Сила толчка при столкновении
+    /// </summary>
+    [SerializeField]
+    private float ForcePush;//Сила толчка завист от силы удара. Надо сделать
+
+    /// <summary>
+    /// Состояние движения (true - полная блокировка)
+    /// </summary>
+    private bool IsFreeze;
+    #endregion
+
+    #region HitZone
+    [SerializeField]
+    private Vector3 Direction;
+
+
+    #endregion
+
 
     private Rigidbody2D rigidbody;
+    private Animator anim;
+
+   
+    float tmpx;
+    float tmpy;
 
     private void Awake()
     {
@@ -29,12 +57,13 @@ public class Player : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        Health = 10; 
-        Speed = 10;
+        Health = 10;
+        Speed = 5;// 10;
         ForcePush = 10;
         Bash = 0.2f;
 
         rigidbody = GetComponent<Rigidbody2D>();
+        anim = GetComponent<Animator>();
     }
 
     // Update is called once per frame
@@ -50,15 +79,64 @@ public class Player : MonoBehaviour
                 x = x * 0.7f;
                 y = y * 0.7f;
             }
-
+            
             Vector3 direction = new Vector3(x, y);
+            Direction = direction.normalized;
+
             Vector3 newPosition = direction + transform.position;
             //Debug.Log(Vector3.Distance(newPosition, transform.position) / Time.deltaTime);
             rigidbody.MovePosition(newPosition);
+
+            tmpx = Convert.ToInt32(Direction.x);
+            tmpy = Convert.ToInt32(Direction.y);
+
+            StartAnimationWalk();
         }
+        else
+        {
+            StartAnimationStay();
+        }
+        if(Input.GetButton("Jump"))
+        {
+            
+        }
+        
     }
 
-    
+    private void StartAnimationWalk()
+    {
+        if (Direction == Vector3.down)
+            anim.Play("Player_down");
+        if (Direction == Vector3.left)
+            anim.Play("Player_left");
+        if (Direction == Vector3.up)
+            anim.Play("Player_up");
+        if (Direction == Vector3.right)
+            anim.Play("Player_right");
+        if ((tmpx == 1 && tmpy == 1) || (tmpx == -1 && tmpy == 1))
+            anim.Play("Player_up");
+        if ((tmpx == -1 && tmpy == -1) || (tmpx == 1 && tmpy == -1))
+            anim.Play("Player_down");
+    }
+
+
+    private void StartAnimationStay()
+    {
+        if (Direction == Vector3.down)
+            anim.Play("Player_stay_down");
+        if (Direction == Vector3.left)
+            anim.Play("Player_stay_left");
+        if (Direction == Vector3.up)
+            anim.Play("Player_stay_up");
+        if (Direction == Vector3.right)
+            anim.Play("Player_stay_right");
+        if ((tmpx == 1 && tmpy == 1) || (tmpx == -1 && tmpy == 1))
+            anim.Play("Player_stay_up");
+        if ((tmpx == -1 && tmpy == -1) || (tmpx == 1 && tmpy == -1))
+            anim.Play("Player_stay_down");
+    }
+
+
 
     public void SimpleWound(float value)
     {
