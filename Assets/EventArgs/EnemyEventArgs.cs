@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
 
 namespace Assets.EventArgs
 {
@@ -12,10 +13,13 @@ namespace Assets.EventArgs
         public EnemyType Type { get; }
         public float Damage { get; }
 
-        public EnemyEventArgs(EnemyType type, float damage)
+        public Vector3 Position { get; }
+
+        public EnemyEventArgs(EnemyType type, float damage, Vector3 position)
         {
             Type = type;
             Damage = damage;
+            Position = position;
         }
 
     }

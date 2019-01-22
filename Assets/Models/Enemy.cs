@@ -5,8 +5,8 @@ using Assets.EventArgs;
 
 public class Enemy : MonoBehaviour
 {
-    public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
-    public event PlayerHandler Attack;
+    //public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
+    //public event PlayerHandler Attack;
 
     public float Damage;
 
@@ -26,8 +26,10 @@ public class Enemy : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if(Attack!=null) Attack(this, new EnemyEventArgs(EnemyType.Simple, Damage));
+            //if(Attack!=null) Attack(this, new EnemyEventArgs(EnemyType.Simple, Damage));
             //CustomEventSystem.AttackTheHero(Damage);
+            collision.gameObject.SendMessage("TakeDamage", new EnemyEventArgs(EnemyType.Simple, Damage,transform.position));
+
         }
     }
 

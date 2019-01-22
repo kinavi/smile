@@ -5,14 +5,14 @@ using System.Text;
 
 namespace Assets.EventArgs
 {
-    public enum BottleType { Helth, Mana }
+    public enum ElixirType { Helth, Mana }
 
-    public class BottleEventArgs
+    public class ElixirEventArgs
     {
-        public BottleType Type { get; }
+        public ElixirType Type { get; }
         public float Points { get; }
 
-        public BottleEventArgs(BottleType type, float points)
+        public ElixirEventArgs(ElixirType type, float points)
         {
             Type = type;
             Points = points;
