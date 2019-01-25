@@ -34,20 +34,38 @@ public class Player : MonoBehaviour
     private bool IsFreeze;
     #endregion
 
-    #region HitZone
+    #region Hit
+
+    public GameObject Hit;
+
+    Quaternion right = Quaternion.Euler(0, 0, -45f);
+    Quaternion left = Quaternion.Euler(180f, 0, 135f);
+    Quaternion up = Quaternion.Euler(0, 0, 45f);
+    Quaternion down = Quaternion.Euler(180f, 0, 45f);
+
+    public float SpeedAttack;
+    private float TimeAttack;
+    #endregion
+
     [SerializeField]
     private Vector3 Direction;
 
+    private Rigidbody2D rigidbody;
 
+    //AnimationControllerHero CustomAnimationController;
+
+    #region Animation
+    public delegate void MoveHandler(Vector3 Direction);
+    public event MoveHandler OnMove;
+    public event MoveHandler OnStay;
+    public event MoveHandler OnHit;
     #endregion
 
+    //[SerializeField]
+    //bool BehindTheBack;
 
-    private Rigidbody2D rigidbody;
-    private Animator anim;
-
-   
-    float tmpx;
-    float tmpy;
+    //[SerializeField]
+    //bool InHand;
 
     private void Awake()
     {
@@ -59,87 +77,64 @@ public class Player : MonoBehaviour
     {
         Health = 10;
         Speed = 5;// 10;
-        ForcePush = 10;
+        ForcePush = 50;
         Bash = 0.2f;
 
         rigidbody = GetComponent<Rigidbody2D>();
-        anim = GetComponent<Animator>();
+        //rigidbody.
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(!IsFreeze && (Input.GetButton("Horizontal")|| Input.GetButton("Vertical")))
+        if (IsFreeze)
         {
-            float x = Input.GetAxisRaw("Horizontal") * Time.deltaTime * Speed;
-            float y = Input.GetAxisRaw("Vertical") * Time.deltaTime * Speed;
+            OnStay(Direction);
+        }
 
-            if (Input.GetButton("Horizontal") && Input.GetButton("Vertical"))
-            {
-                x = x * 0.7f;
-                y = y * 0.7f;
-            }
-            
-            Vector3 direction = new Vector3(x, y);
-            Direction = direction.normalized;
+        if (!IsFreeze && (Input.GetButton("Horizontal")|| Input.GetButton("Vertical")))
+        {
+            float x = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Vertical");
 
-            Vector3 newPosition = direction + transform.position;
+            Direction = new Vector3(x, y).normalized; //* Time.deltaTime * Speed;
+
+            Vector3 Step = Direction * Time.deltaTime * Speed;
+
+            Vector3 NewPosition = transform.position + Step;
             //Debug.Log(Vector3.Distance(newPosition, transform.position) / Time.deltaTime);
-            rigidbody.MovePosition(newPosition);
+            rigidbody.MovePosition(NewPosition);
 
-            tmpx = Convert.ToInt32(Direction.x);
-            tmpy = Convert.ToInt32(Direction.y);
-
-            StartAnimationWalk();
+            OnMove(Direction);
         }
         else
+            OnStay(Direction);
+
+        if(Input.GetButtonDown("Jump")&&Time.time > TimeAttack + SpeedAttack)
         {
-            StartAnimationStay();
-        }
-        if(Input.GetButton("Jump"))
-        {
-            
+            //IsFreeze = true;
+            GetFreezeForSec(SpeedAttack);
+
+            TimeAttack = Time.time;
+
+            if (Direction == Vector3.left)
+                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, left);
+            if (Direction == Vector3.right)
+                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, right);
+            if (Direction == Vector3.up)
+                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, up);
+            if (Direction == Vector3.down)
+                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, down);
+
+            OnHit(Direction);
         }
         
     }
 
-    private void StartAnimationWalk()
-    {
-        if (Direction == Vector3.down)
-            anim.Play("Player_down");
-        if (Direction == Vector3.left)
-            anim.Play("Player_left");
-        if (Direction == Vector3.up)
-            anim.Play("Player_up");
-        if (Direction == Vector3.right)
-            anim.Play("Player_right");
-        if ((tmpx == 1 && tmpy == 1) || (tmpx == -1 && tmpy == 1))
-            anim.Play("Player_up");
-        if ((tmpx == -1 && tmpy == -1) || (tmpx == 1 && tmpy == -1))
-            anim.Play("Player_down");
-    }
-
-
-    private void StartAnimationStay()
-    {
-        if (Direction == Vector3.down)
-            anim.Play("Player_stay_down");
-        if (Direction == Vector3.left)
-            anim.Play("Player_stay_left");
-        if (Direction == Vector3.up)
-            anim.Play("Player_stay_up");
-        if (Direction == Vector3.right)
-            anim.Play("Player_stay_right");
-        if ((tmpx == 1 && tmpy == 1) || (tmpx == -1 && tmpy == 1))
-            anim.Play("Player_stay_up");
-        if ((tmpx == -1 && tmpy == -1) || (tmpx == 1 && tmpy == -1))
-            anim.Play("Player_stay_down");
-    }
-
-
 
     public void SimpleWound(float value)
     {
+        OnMove(Direction);
         Health -= value;
         Debug.Log("Health = " + Health);
         //проверка на смерть
@@ -155,8 +150,7 @@ public class Player : MonoBehaviour
     public void SympleHealing(float value)
     {
         Health += value;
-        Debug.Log("HP +" + value);
-        Debug.Log("HP =" + Health);
+        Debug.Log("HP +" + value+ " = " + Health);
     }
 
     void GetPush(Vector3 EnemyPosition)
@@ -165,12 +159,15 @@ public class Player : MonoBehaviour
         rigidbody.AddForce((dirCollision.normalized) * ForcePush, ForceMode2D.Impulse);
     }
     
+    void GetFreezeForSec(float time)
+    {
+        StartCoroutine(WaitAndPrint(time));
+    }
 
     void GetBush()
     {
         StartCoroutine(WaitAndPrint(Bash));
     }
-
 
     private IEnumerator WaitAndPrint(float waitTime)
     {
