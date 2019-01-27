@@ -45,6 +45,8 @@ public class Player : MonoBehaviour
 
     public float SpeedAttack;
     private float TimeAttack;
+
+    public float DistanceAttack;
     #endregion
 
     [SerializeField]
@@ -99,11 +101,13 @@ public class Player : MonoBehaviour
 
             Direction = new Vector3(x, y).normalized; //* Time.deltaTime * Speed;
 
-            Vector3 Step = Direction * Time.deltaTime * Speed;
+            Vector3 Distance = Direction * Time.deltaTime * Speed;
 
-            Vector3 NewPosition = transform.position + Step;
+            Vector3 Target = transform.position + Distance;
+
             //Debug.Log(Vector3.Distance(newPosition, transform.position) / Time.deltaTime);
-            rigidbody.MovePosition(NewPosition);
+
+            rigidbody.MovePosition(Target);
 
             OnMove(Direction);
         }
@@ -118,13 +122,13 @@ public class Player : MonoBehaviour
             TimeAttack = Time.time;
 
             if (Direction == Vector3.left)
-                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, left);
+                Instantiate<GameObject>(Hit, transform.position + Direction * DistanceAttack, left);//* 0.6f
             if (Direction == Vector3.right)
-                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, right);
+                Instantiate<GameObject>(Hit, transform.position + Direction * DistanceAttack, right);
             if (Direction == Vector3.up)
-                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, up);
+                Instantiate<GameObject>(Hit, transform.position + Direction * DistanceAttack, up);
             if (Direction == Vector3.down)
-                Instantiate<GameObject>(Hit, transform.position + Direction * 0.6f, down);
+                Instantiate<GameObject>(Hit, transform.position + Direction * DistanceAttack, down);
 
             OnHit(Direction);
         }

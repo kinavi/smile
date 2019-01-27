@@ -20,12 +20,15 @@ public class Weapon : MonoBehaviour
     public Vector3 OffsetRotation_down;
     public Vector3 OffsetRotation_right;
 
+    private Animator animator;
+
     [SerializeField]
     bool InHand;
     // Start is called before the first frame update
     void Start()
     {
         player = GameObject.Find("PlayerVer2").GetComponent<Player>();
+        animator = GetComponent<Animator>();
 
         player.OnMove += MoveWeapon;//MoveAnimation;
         player.OnStay += StayAnimation;
@@ -59,43 +62,13 @@ public class Weapon : MonoBehaviour
         if (Direction == Vector3.down||(Direction.x < 0 && Direction.y < 0) || (Direction.x > 0 && Direction.y < 0))
         {
             transform.position = (player.transform.position - Direction * 0.1f)+ OffsetPosition_down;
-            transform.rotation= Quaternion.Euler(OffsetRotation_down);
+            transform.rotation = Quaternion.Euler(OffsetRotation_down);
         }
         if (Direction == Vector3.right)
         {
             transform.position = (player.transform.position - Direction * 0.1f)+ OffsetPosition_right;
             transform.rotation = Quaternion.Euler(OffsetRotation_right);
         }
-        //else
-        //{
-        //    if ((Direction.x > 0 && Direction.y > 0) || (Direction.x < 0 && Direction.y > 0))
-        //        //animator.Play("Player_up");
-        //    if ((Direction.x < 0 && Direction.y < 0) || (Direction.x > 0 && Direction.y < 0))
-        //        //animator.Play("Player_down");
-        //}
-
-
-        //if (Direction == Vector3.down)
-        //    transform.position = player.transform.position - Direction * 0.2f;
-        ////animator.Play("Player_down");
-        //if (Direction == Vector3.left)
-        //    animator.Play("Player_left");
-        //if (Direction == Vector3.up)
-        //    animator.Play("Player_up");
-        //if (Direction == Vector3.right)
-        //    animator.Play("Player_right");
-        //else
-        //{
-        //    if ((Direction.x > 0 && Direction.y > 0) || (Direction.x < 0 && Direction.y > 0))
-        //        animator.Play("Player_up");
-        //    if ((Direction.x < 0 && Direction.y < 0) || (Direction.x > 0 && Direction.y < 0))
-        //        animator.Play("Player_down");
-        //}
-
-        //if ((Direction.x > 0 && Direction.y > 0) || (Direction.x < 0 && Direction.y > 0)||(Direction == Vector3.up))
-        //    spriteRenderer.sortingOrder = 10;
-        //if(!InHand)
-        //    transform.position = player.transform.position - Direction * 0.2f;
     }
 
     void StayAnimation(Vector3 Direction)
@@ -107,26 +80,51 @@ public class Weapon : MonoBehaviour
 
     void HitAnimation(Vector3 Direction)
     {
-        TakeInHand();
+        //TakeInHand(Direction);
+
+        StartCoroutine(WaitAnaimation(player.SpeedAttack, Direction));
 
         //transform.position = player.transform.position + Direction;
+
+
+
     }
 
-    void TakeInHand()
+    void TakeInHand(Vector3 Direction)
     {
-        StartCoroutine(WaitAnaimation(player.SpeedAttack));
+        StartCoroutine(WaitAnaimation(player.SpeedAttack, Direction));
     }
 
-    private IEnumerator WaitAnaimation(float waitTime)
+    private IEnumerator WaitAnaimation(float waitTime, Vector3 Direction)
     {
+        animator.enabled = true;
         InHand = true;
+
+        if (Direction==Vector3.left)
+        {
+            animator.Play("Wave_left");
+        }
+        if (Direction == Vector3.right)
+        {
+            animator.Play("Wave_right");
+        }
+
         yield return new WaitForSeconds(waitTime);
+
         InHand = false;
+
+        animator.StopPlayback();
+
+        animator.enabled = false;
     }
 
     // Update is called once per frame
     void Update()
     {
+        //if(animator.is)
+        //{
+
+        //}
         
     }
 }
