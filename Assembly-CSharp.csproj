@@ -64,21 +64,15 @@
     <Compile Include="Assets\CustomEventSystem.cs" />
     <Compile Include="Assets\EventArgs\ElixirEventArgs.cs" />
     <Compile Include="Assets\EventArgs\EnemyEventArgs.cs" />
-    <Compile Include="Assets\InputController.cs" />
     <Compile Include="Assets\LevelManager.cs" />
-    <Compile Include="Assets\Models\Enemy\Enemy.cs" />
-    <Compile Include="Assets\Models\Experiment\Command.cs" />
-    <Compile Include="Assets\Models\Experiment\TestCommand.cs" />
-    <Compile Include="Assets\Models\Hero\PlayerAnimationController.cs" />
-    <Compile Include="Assets\Models\Hero\PlayerEngineController.cs" />
-    <Compile Include="Assets\Models\Hero\PlayerManager.cs" />
-    <Compile Include="Assets\Models\Hit\HitController.cs" />
-    <Compile Include="Assets\Models\Hit\HitSimple.cs" />
+    <Compile Include="Assets\Models\AnimationControllerHero.cs" />
+    <Compile Include="Assets\Models\AnimationControllerHeroV2.cs" />
+    <Compile Include="Assets\Models\ElixirHealthSimple.cs" />
+    <Compile Include="Assets\Models\Enemy.cs" />
+    <Compile Include="Assets\Models\HitController.cs" />
+    <Compile Include="Assets\Models\HitSimple.cs" />
     <Compile Include="Assets\Models\Player.cs" />
-    <Compile Include="Assets\Models\Things\ElixirHealthSimple.cs" />
     <Compile Include="Assets\Models\Weapon.cs" />
-    <Compile Include="Assets\Models\Weapons\WeaponAnimationController.cs" />
-    <Compile Include="Assets\Models\Weapons\WeaponEngineController.cs" />
     <Compile Include="Assets\RemoveObject.cs" />
     <Reference Include="Unity.TextMeshPro.Editor">
       <HintPath>F:/Unity/smile/Library/ScriptAssemblies/Unity.TextMeshPro.Editor.dll</HintPath>
