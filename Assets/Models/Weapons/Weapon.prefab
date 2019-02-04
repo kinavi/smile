@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2367728371029168000}
   - component: {fileID: 2367728371029168015}
   - component: {fileID: 2367728371029168014}
-  - component: {fileID: 3957512668796634348}
+  - component: {fileID: 165370564}
   m_Layer: 0
   m_Name: Weapon
   m_TagString: Untagged
@@ -70,8 +70,8 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: cd0155ab6a29cbd4b993f8c4b4bc9bc4, type: 3}
+  m_SortingOrder: 5
+  m_Sprite: {fileID: 21300000, guid: 34b4fb0a9afae564dbd81718c78edd88, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -99,7 +99,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.9, y: 1.6}
+    oldSize: {x: 1.7, y: 0.3}
     newSize: {x: 0.9, y: 1.6}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -127,7 +127,7 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &3957512668796634348
+--- !u!114 &165370564
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -136,6 +136,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2367728371029168003}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d180abded9a70834e8427c337e0d9013, type: 3}
+  m_Script: {fileID: 11500000, guid: a94fa323eba2820489498d4904b2c157, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  direction: 0
+  OffsetPosition_up: {x: 0, y: -0.7, z: 0}
+  OffsetPosition_left: {x: 0.55, y: -0.3, z: 0}
+  OffsetPosition_down: {x: -0.1, y: -0.55, z: 0}
+  OffsetPosition_right: {x: -0.55, y: -0.3, z: 0}
+  OffsetPosition_upleft: {x: 0.1, y: -0.6, z: 0}
+  OffsetPosition_upright: {x: -0.1, y: -0.6, z: 0}
+  OffsetPosition_downleft: {x: 0, y: -0.6, z: 0}
+  OffsetPosition_downright: {x: -0.2, y: -0.6, z: 0}
+  OffsetRotation_up: {x: 180, y: 0, z: 135}
+  OffsetRotation_left: {x: 0, y: 180, z: -90}
+  OffsetRotation_down: {x: 0, y: 0, z: -45}
+  OffsetRotation_right: {x: 0, y: 0, z: -90}

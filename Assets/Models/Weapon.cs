@@ -56,7 +56,7 @@ public class Weapon : MonoBehaviour
         }
         if (Direction == Vector3.left)
         {
-            transform.position = (player.transform.position - Direction * 0.1f)+ OffsetPosition_left;//- Direction * 0.2f
+            transform.position = (player.transform.position - Direction * 0.1f)+ OffsetPosition_left;//- direction * 0.2f
             transform.rotation = Quaternion.Euler(OffsetRotation_left);
         }
         if (Direction == Vector3.down||(Direction.x < 0 && Direction.y < 0) || (Direction.x > 0 && Direction.y < 0))
@@ -74,17 +74,17 @@ public class Weapon : MonoBehaviour
     void StayAnimation(Vector3 Direction)
     {
         //if (!InHand)
-        //    MoveWeapon(Direction);//transform.position = player.transform.position - Direction * 0.2f;
+        //    MoveWeapon(direction);//transform.position = player.transform.position - direction * 0.2f;
     }
 
 
     void HitAnimation(Vector3 Direction)
     {
-        //TakeInHand(Direction);
+        //TakeInHand(direction);
 
         StartCoroutine(WaitAnaimation(player.SpeedAttack, Direction));
 
-        //transform.position = player.transform.position + Direction;
+        //transform.position = player.transform.position + direction;
 
 
 
