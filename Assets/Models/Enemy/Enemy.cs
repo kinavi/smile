@@ -5,7 +5,7 @@ using Assets.EventArgs;
 
 public class Enemy : MonoBehaviour
 {
-    public Vector3 TargetDirection;
+    protected Vector3 TargetDirection;
     //public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
     //public event PlayerHandler Attack;
     protected float Healht;

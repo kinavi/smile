@@ -6,46 +6,69 @@ using Assets.EventArgs;
 public class FireSpirit : Enemy
 {
     public GameObject PrefabProjectile;
+    public Vector3[] StarPosition;
 
-    public int LimitProjectile;
+    public float CooldownSpawnProjectile;
 
-    public FireBoll[] fireBolls;
+    public List<FireBoll> fireBolls;
+    //public FireBoll[] fireBolls;
 
     public float SpeedAttack;
-    private float TimeAttack;
+    private float CooldownAttack;
 
     public bool IsShooting;
 
     // Start is called before the first frame update
     void Start()
     {
-        IsShooting = false;
-        fireBolls = gameObject.GetComponentsInChildren<FireBoll>();
-        
+        CooldownAttack = SpeedAttack;
+
+        Charging();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(fireBolls.Length != LimitProjectile)
+        if (fireBolls.Count == 0)
         {
+            CooldownSpawnProjectile -= Time.deltaTime;
 
+            if (CooldownSpawnProjectile < 0)
+                Charging();
         }
 
-        if (IsShooting)
+        if (IsShooting && fireBolls.Count != 0)
         {
-            if ((Time.time >= TimeAttack + SpeedAttack)&& fireBolls.Length!=0)
-            {
-                TimeAttack = Time.time;
+            Shooting();
+        }
+    }
 
-                foreach(FireBoll fireBoll in fireBolls)
-                {
-                    fireBoll.Shot(TargetDirection);
-                }
-                //Instantiate<GameObject>(Hit, (transform.position + TargetDirection.normalized), TargetRotation.normalized).GetComponent<Bolt>().Shot(TargetDirection);
-                //* DistanceStartBolt//
-            }
+    private void Charging()
+    {
+        foreach (Vector3 pos in StarPosition)
+        {
+            fireBolls.Add(Instantiate<GameObject>(PrefabProjectile, transform.position + pos, Quaternion.identity, gameObject.transform).GetComponent<FireBoll>());
+        }
 
+        //fireBolls = gameObject.GetComponentsInChildren<FireBoll>();
+    }
+
+
+    private void Shooting()
+    {
+        CooldownAttack -= Time.deltaTime;
+
+        if (CooldownAttack < 0)
+        {
+            CooldownAttack = SpeedAttack;
+
+            fireBolls[fireBolls.Count-1].Shot(TargetDirection);
+
+            fireBolls.Remove(fireBolls[fireBolls.Count - 1]);
+            //foreach (FireBoll fireBoll in fireBolls)///------
+            //{
+            //    fireBoll.Shot(TargetDirection);
+            //}
         }
     }
 

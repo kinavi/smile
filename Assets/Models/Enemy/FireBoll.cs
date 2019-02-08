@@ -4,32 +4,28 @@ using UnityEngine;
 
 public class FireBoll : Projectile
 {
-    public float TimeLive;
-    public float SpeedBolt;
-
+    //float time;
     // Start is called before the first frame update
     void Start()
     {
-        IsShoot = false;
-
+        
     }
 
     // Update is called once per frame
     void Update()
     {
-        float time = Time.time;
-
         if (IsShoot)
         {
             transform.SetParent(null);
-            //transform.Translate(TargetDirection.normalized * SpeedBolt * Time.deltaTime);
             transform.position += TargetDirection.normalized * SpeedBolt * Time.deltaTime;
-            //Vector3 direction = TargetDirection - transform.position;
             float angle = (Mathf.Atan2(TargetDirection.y, TargetDirection.x) * Mathf.Rad2Deg) + 90;//Если обхект смотрит вниз то +90, если вправо 0
-            Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-            transform.rotation = rotation;
+            transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward); 
 
-            if (time >= TimeStart + TimeLive)
+            TimeLive -= Time.deltaTime;
+
+            print(TimeLive);
+
+            if (TimeLive < 0)
             {
                 Destroy(gameObject);
             }
