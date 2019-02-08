@@ -5,22 +5,11 @@ using Assets.EventArgs;
 
 public class Enemy : MonoBehaviour
 {
+    public Vector3 TargetDirection;
     //public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
     //public event PlayerHandler Attack;
-
-    public float Damage;
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        Damage = 5;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
+    protected float Healht;
+    protected float Damage;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

@@ -14,6 +14,8 @@ public class RageAttack : MonoBehaviour
 
     public GameObject Hit;
 
+
+
     private bool IsShooting;
 
     // Start is called before the first frame update

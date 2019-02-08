@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class TestRotation : MonoBehaviour
 {
-
-    public Vector3 tmp;
+    public float speed = 5f;
+    public Transform target;
     // Start is called before the first frame update
     void Start()
     {
@@ -15,22 +15,20 @@ public class TestRotation : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        Vector2 direction = target.position - transform.position;
+        //transform.LookAt(direction);
+        float angle = (Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg)+90;//Если обхект смотрит вниз то +90, если вправо 0
+        Quaternion rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        transform.rotation = Quaternion.Slerp(transform.rotation, rotation, speed*Time.deltaTime);
     }
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        //transform.LookAt(collision.transform.position - transform.position, tmp);
-        //transform.LookAt(collision.transform.position, tmp);
-        //transform.forward;
-        //transform.Rotate((collision.transform.position - transform.position).normalized,Space.World);
-        //float z = 
-        //Quaternion tmp = Quaternion.LookRotation((collision.transform.position - transform.position).normalized, transform.position);
-        transform.rotation = Quaternion.LookRotation((transform.position- collision.transform.position), Vector3.forward);
-        transform.eulerAngles = new Vector3(0, 0, transform.eulerAngles.z);
-        //transform.rotation = new Quaternion(0, 0, tmp.x, 0);
-        //transform.Rotate(Vector3.left*Time.deltaTime);
-        //transform.rotation = Quaternion.LookRotation(Vector3.down, (collision.transform.position - transform.position).normalized);//.Rotate(collision.transform.position - transform.position);
-        Debug.Log("+");
+       if(collision.tag=="Player")
+        {
+            //target = collision.transform;
+           
+        }
+      
     }
 }
