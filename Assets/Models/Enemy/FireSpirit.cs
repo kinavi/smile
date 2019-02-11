@@ -9,19 +9,20 @@ public class FireSpirit : Enemy
     public Vector3[] StarPosition;
 
     public float CooldownSpawnProjectile;
+    public float TimerCooldownSpawnProjectile;
 
     public List<FireBoll> fireBolls;
-    //public FireBoll[] fireBolls;
 
     public float SpeedAttack;
-    private float CooldownAttack;
+    public float CooldownAttack;
 
     public bool IsShooting;
 
     // Start is called before the first frame update
     void Start()
     {
-        CooldownAttack = SpeedAttack;
+        //CooldownAttack = SpeedAttack;
+        TimerCooldownSpawnProjectile = CooldownSpawnProjectile;
 
         Charging();
     }
@@ -31,12 +32,17 @@ public class FireSpirit : Enemy
     {
         if (fireBolls.Count == 0)
         {
-            CooldownSpawnProjectile -= Time.deltaTime;
+            TimerCooldownSpawnProjectile -= Time.deltaTime;
 
-            if (CooldownSpawnProjectile < 0)
+            //float currentTime=Time.time;
+
+            if (TimerCooldownSpawnProjectile < 0)//Time.time >= currentTime + CooldownSpawnProjectile)
+            {
+                TimerCooldownSpawnProjectile = CooldownSpawnProjectile;
                 Charging();
+            }
         }
-
+        
         if (IsShooting && fireBolls.Count != 0)
         {
             Shooting();
@@ -48,9 +54,8 @@ public class FireSpirit : Enemy
         foreach (Vector3 pos in StarPosition)
         {
             fireBolls.Add(Instantiate<GameObject>(PrefabProjectile, transform.position + pos, Quaternion.identity, gameObject.transform).GetComponent<FireBoll>());
+            CooldownAttack = 0;
         }
-
-        //fireBolls = gameObject.GetComponentsInChildren<FireBoll>();
     }
 
 
@@ -65,10 +70,6 @@ public class FireSpirit : Enemy
             fireBolls[fireBolls.Count-1].Shot(TargetDirection);
 
             fireBolls.Remove(fireBolls[fireBolls.Count - 1]);
-            //foreach (FireBoll fireBoll in fireBolls)///------
-            //{
-            //    fireBoll.Shot(TargetDirection);
-            //}
         }
     }
 
@@ -76,9 +77,7 @@ public class FireSpirit : Enemy
     {
         if (collision.gameObject.tag == "Player")
         {
-            //if(Attack!=null) Attack(this, new EnemyEventArgs(EnemyType.Simple, Damage));
-            //CustomEventSystem.AttackTheHero(Damage);
-            collision.gameObject.SendMessage("TakeDamage", new EnemyEventArgs(EnemyType.Simple, Damage, transform.position));
+            collision.gameObject.SendMessage("Damage", new EnemyEventArgs(EnemyType.Simple, Damage, transform.position));
 
         }
     }
@@ -87,7 +86,6 @@ public class FireSpirit : Enemy
         if (collision.tag == "Player")
         {
             TargetDirection = collision.gameObject.transform.position - transform.position;
-            //TargetRotation = Quaternion.LookRotation(TargetDirection, Vector3.down);
             IsShooting = true;
         }
 
@@ -98,7 +96,6 @@ public class FireSpirit : Enemy
         if (collision.tag == "Player")
         {
             TargetDirection = collision.gameObject.transform.position - transform.position;
-            //TargetRotation = Quaternion.LookRotation(Vector3.down, TargetDirection);
         }
 
     }

@@ -112,6 +112,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76fc66f20760d1c4b8abf2acb5fbd5da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  IsShoot: 0
   TimeLive: 3
   SpeedBolt: 5

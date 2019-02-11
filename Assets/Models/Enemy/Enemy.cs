@@ -8,8 +8,8 @@ public class Enemy : MonoBehaviour
     protected Vector3 TargetDirection;
     //public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
     //public event PlayerHandler Attack;
-    protected float Healht;
-    protected float Damage;
+    public float Healht;
+    public float Damage;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
