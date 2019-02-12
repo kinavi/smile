@@ -5,10 +5,6 @@ using UnityEngine.UI;
 
 public class Health : MonoBehaviour
 {
-    public delegate void ChangeHealthHandler(float Ratios);
-    public static event ChangeHealthHandler ReduceHealth;
-    public static event ChangeHealthHandler IncreaseHealth;
-
     public float curHealth = 100;
     public GameObject healthObj;
     public Text healthText;

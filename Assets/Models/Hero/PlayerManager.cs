@@ -7,14 +7,23 @@ public enum Direction { Up, Right, Down, Left, UpLeft, UpRight, DownLeft, DownRi
 
 public class PlayerManager : MonoBehaviour
 {
+    //public delegate void ChangeHealthHandler(float Ratios);
+    //public static event ChangeHealthHandler ReduceHealth;
+    //public static event ChangeHealthHandler IncreaseHealth;
+
     public float curHealth;
     public float maxHealth;
 
     public static Direction direction;
 
+    public BarUI HealthBar;
+
     void Start()
     {
         curHealth = maxHealth;
+        HealthBar.SetValue(curHealth, maxHealth);
+
+        //HealthBar = new BarUI(curHealth, maxHealth);
 
         InputController.OnMoveUp += () => direction = Direction.Up;
         InputController.OnMoveUpRight += () => direction = Direction.UpRight;
@@ -44,7 +53,8 @@ public class PlayerManager : MonoBehaviour
         {
             case EnemyType.Simple:
                 curHealth -= args.Damage;
-
+                HealthBar.СhangeValue(curHealth);
+                //ReduceHealth(curHealth/maxHealth);
                 //SimpleWound(args.Damage);
                 //GetPush(args.Position);
                 //GetBush();
