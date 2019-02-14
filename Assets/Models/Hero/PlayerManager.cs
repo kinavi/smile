@@ -14,15 +14,23 @@ public class PlayerManager : MonoBehaviour
     public float curHealth;
     public float maxHealth;
 
+    public float DamagePoint;
+
     public static Direction direction;
 
     public BarUI HealthBar;
 
+    private Rigidbody2D rigidbody;
+
+    [SerializeField]
+    private float ForcePush;
+
     void Start()
     {
         curHealth = maxHealth;
-        HealthBar.SetValue(curHealth, maxHealth);
+        HealthBar.SetValue(maxHealth);
 
+        rigidbody = GetComponent<Rigidbody2D>();
         //HealthBar = new BarUI(curHealth, maxHealth);
 
         InputController.OnMoveUp += () => direction = Direction.Up;
@@ -55,11 +63,26 @@ public class PlayerManager : MonoBehaviour
                 curHealth -= args.Damage;
                 HealthBar.СhangeValue(curHealth);
                 //ReduceHealth(curHealth/maxHealth);
-                //SimpleWound(args.Damage);
-                //GetPush(args.Position);
+                //SimpleWound(args.Damage);s
+                GetPush(args.Position);
                 //GetBush();
                 Debug.Log(" - " + args.Damage + " hp");
                 break;
+        }
+    }
+
+    void GetPush(Vector3 EnemyPosition)
+    {
+        Vector3 dirCollision = -(EnemyPosition - transform.position);
+        rigidbody.AddForce((dirCollision.normalized) * ForcePush, ForceMode2D.Impulse);
+        
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Enemy")
+        {
+            collision.gameObject.SendMessage("Damage", DamagePoint);
         }
     }
 

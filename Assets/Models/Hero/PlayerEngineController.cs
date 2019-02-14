@@ -25,8 +25,6 @@ public class PlayerEngineController : MonoBehaviour
     Quaternion downright = Quaternion.Euler(180f, 0, 0);
     Quaternion downleft = Quaternion.Euler(180f, 0, 90);
 
-
-
     // Start is called before the first frame update
     private void Start()
     {
@@ -44,6 +42,9 @@ public class PlayerEngineController : MonoBehaviour
 
     void Move()
     {
+        //arigidbody.inertia = 0;
+        rigidbody.velocity = Vector2.zero;
+
         float x = Input.GetAxisRaw("Horizontal");
         float y = Input.GetAxisRaw("Vertical");
 

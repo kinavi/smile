@@ -154,6 +154,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3725347038b342a4499477a9d167915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  curHealth: 0
+  maxHealth: 100
+  HealthBar: {fileID: 0}
 --- !u!114 &1840717370727039842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -167,7 +170,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   direction: {x: 0, y: 0, z: 0}
-  Speed: 1
+  Speed: 4
   objHit: {fileID: 5284633365634059638, guid: b1c22294380723a48b1bfa4f2e56f123, type: 3}
   SpeedAttack: 0.2
   DistanceAttack: 1

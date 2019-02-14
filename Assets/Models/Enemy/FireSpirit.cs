@@ -18,9 +18,19 @@ public class FireSpirit : Enemy
 
     public bool IsShooting;
 
+    public BarUI HealthBar;
+
     // Start is called before the first frame update
     void Start()
     {
+        curHealth = maxHealth;
+        if(HealthBar != null)
+        {
+            HealthBar = GetComponentInChildren<BarUI>();
+            HealthBar.SetValue(maxHealth);
+        }
+        
+
         //CooldownAttack = SpeedAttack;
         TimerCooldownSpawnProjectile = CooldownSpawnProjectile;
 
@@ -77,7 +87,7 @@ public class FireSpirit : Enemy
     {
         if (collision.gameObject.tag == "Player")
         {
-            collision.gameObject.SendMessage("Damage", new EnemyEventArgs(EnemyType.Simple, Damage, transform.position));
+            collision.gameObject.SendMessage("Damage", new EnemyEventArgs(EnemyType.Simple, DamagePoint, transform.position));
 
         }
     }
@@ -104,5 +114,14 @@ public class FireSpirit : Enemy
     {
         if (collision.tag == "Player")
             IsShooting = false;
+    }
+
+    public void Damage(float damage)
+    {
+        curHealth -= damage;
+        if(HealthBar != null)
+        {
+            HealthBar.СhangeValue(curHealth);
+        }
     }
 }

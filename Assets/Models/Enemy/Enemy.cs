@@ -8,8 +8,10 @@ public class Enemy : MonoBehaviour
     protected Vector3 TargetDirection;
     //public delegate void PlayerHandler(Enemy enemy, EnemyEventArgs args);
     //public event PlayerHandler Attack;
-    public float Healht;
-    public float Damage;
+    public float curHealth;
+    public float maxHealth;
+
+    public float DamagePoint;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -17,7 +19,7 @@ public class Enemy : MonoBehaviour
         {
             //if(Attack!=null) Attack(this, new EnemyEventArgs(EnemyType.Simple, Damage));
             //CustomEventSystem.AttackTheHero(Damage);
-            collision.gameObject.SendMessage("TakeDamage", new EnemyEventArgs(EnemyType.Simple, Damage,transform.position));
+            collision.gameObject.SendMessage("TakeDamage", new EnemyEventArgs(EnemyType.Simple, DamagePoint, transform.position));
 
         }
     }
