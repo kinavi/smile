@@ -6,13 +6,28 @@ public class PlayerEngineController : MonoBehaviour
 {
     private Vector3 direction;
 
-    private Rigidbody2D rigidbody;
-    public int Speed;
+    private Rigidbody2D rb;
+
+    [SerializeField]
+    public float Speed;
 
     public GameObject objHit;
     public float SpeedAttack;
     private float TimeAttack;
     public float DistanceAttack;
+
+    private bool isFreeze;
+    public bool IsFreeze
+    {
+        get
+        {
+            return this.isFreeze;
+        }
+        set
+        {
+            this.isFreeze = value;
+        }
+    }
 
     Quaternion right = Quaternion.Euler(0, 0, -45f);
     Quaternion left = Quaternion.Euler(180f, 0, 135f);
@@ -27,7 +42,7 @@ public class PlayerEngineController : MonoBehaviour
     // Start is called before the first frame update
     private void Start()
     {
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
 
         InputController.OnMove += Move;
         InputController.OnHit += Hit;
@@ -41,19 +56,20 @@ public class PlayerEngineController : MonoBehaviour
 
     void Move()
     {
-        //arigidbody.inertia = 0;
-        rigidbody.velocity = Vector2.zero;
+        if(!IsFreeze)
+        {
+            float x = Input.GetAxisRaw("Horizontal");
+            float y = Input.GetAxisRaw("Vertical");
 
-        float x = Input.GetAxisRaw("Horizontal");
-        float y = Input.GetAxisRaw("Vertical");
+            direction = new Vector3(x, y).normalized;
 
-        direction = new Vector3(x, y).normalized; 
+            Vector3 Distance = direction * Time.deltaTime * Speed;
 
-        Vector3 Distance = direction * Time.deltaTime * Speed;
+            Vector3 Target = transform.position + Distance;
 
-        Vector3 Target = transform.position + Distance;
-
-        rigidbody.MovePosition(Target);
+            rb.MovePosition(Target);
+        }
+        
     }
 
     void Hit()

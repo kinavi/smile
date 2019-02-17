@@ -17,4 +17,6 @@ public class Projectile : MonoBehaviour
 
         IsShoot = true;
     }
+
+
 }

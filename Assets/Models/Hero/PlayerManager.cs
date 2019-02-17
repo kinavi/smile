@@ -7,10 +7,6 @@ public enum Direction { Up, Right, Down, Left, UpLeft, UpRight, DownLeft, DownRi
 
 public class PlayerManager : MonoBehaviour
 {
-    //public delegate void ChangeHealthHandler(float Ratios);
-    //public static event ChangeHealthHandler ReduceHealth;
-    //public static event ChangeHealthHandler IncreaseHealth;
-
     public float curHealth;
     public float maxHealth;
 
@@ -20,18 +16,21 @@ public class PlayerManager : MonoBehaviour
 
     public BarUI HealthBar;
 
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rb;
 
-    [SerializeField]
-    private float ForcePush;
+    public float ForcePush;
+
+    //public float BushTime;
+
+    PlayerEngineController engineController;
 
     void Start()
     {
+        engineController = GetComponent<PlayerEngineController>();
         curHealth = maxHealth;
         HealthBar.SetValue(maxHealth);
 
-        rigidbody = GetComponent<Rigidbody2D>();
-        //HealthBar = new BarUI(curHealth, maxHealth);
+        rb = GetComponent<Rigidbody2D>();
 
         InputController.OnMoveUp += () => direction = Direction.Up;
         InputController.OnMoveUpRight += () => direction = Direction.UpRight;
@@ -62,11 +61,12 @@ public class PlayerManager : MonoBehaviour
             case EnemyType.Simple:
                 curHealth -= args.Damage;
                 HealthBar.СhangeValue(curHealth);
-                //ReduceHealth(curHealth/maxHealth);
-                //SimpleWound(args.Damage);s
                 GetPush(args.Position);
-                //GetBush();
                 Debug.Log(" - " + args.Damage + " hp");
+                break;
+            case EnemyType.FireBoll:
+                curHealth -= args.Damage;
+                HealthBar.СhangeValue(curHealth);
                 break;
         }
     }
@@ -74,8 +74,8 @@ public class PlayerManager : MonoBehaviour
     void GetPush(Vector3 EnemyPosition)
     {
         Vector3 dirCollision = -(EnemyPosition - transform.position);
-        rigidbody.AddForce((dirCollision.normalized) * ForcePush, ForceMode2D.Impulse);
-        
+        rb.AddForce((dirCollision.normalized) * ForcePush*Time.deltaTime, ForceMode2D.Impulse);
+        StartCoroutine("WaitEndPushEffect");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -86,4 +86,25 @@ public class PlayerManager : MonoBehaviour
         }
     }
 
+    //void GetBush()
+    //{
+    //    StartCoroutine(WaitAndPrint(BushTime));
+    //}
+
+    //private IEnumerator WaitAndPrint(float waitTime)
+    //{
+    //    engineController.IsFreeze = true;
+    //    yield return new WaitForSeconds(waitTime);
+    //    engineController.IsFreeze = false;
+    //}
+
+    private IEnumerator WaitEndPushEffect()
+    {
+        engineController.IsFreeze = true;
+        while(rb.velocity!=Vector2.zero)
+        {
+            yield return null;
+        }
+        engineController.IsFreeze = false;
+    }
 }

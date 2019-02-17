@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class CameraController : MonoBehaviour
 {
-    Transform transform;
+    //Transform transform;
     PlayerManager player;
 
     // Start is called before the first frame update
     void Start()
     {
-        transform = GetComponent<Transform>();
+        //transform = GetComponent<Transform>();
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<PlayerManager>();
 
     }

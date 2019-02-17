@@ -1,9 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Assets.EventArgs;
 
 public class FireBoll : Projectile
 {
+    public float DamagePoint;
+
     // Update is called once per frame
     void Update()
     {
@@ -23,5 +26,14 @@ public class FireBoll : Projectile
     public override void Shot(Vector3 TargetDirection)
     {
         base.Shot(TargetDirection);
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if(collision.tag=="Player")
+        {
+            collision.gameObject.SendMessage("Damage", new EnemyEventArgs(EnemyType.FireBoll, DamagePoint, transform.position));
+            Destroy(gameObject);
+        }
     }
 }

@@ -52,7 +52,7 @@ public class Player : MonoBehaviour
     [SerializeField]
     private Vector3 Direction;
 
-    private Rigidbody2D rigidbody;
+    private Rigidbody2D rb;
 
     //AnimationControllerHero CustomAnimationController;
 
@@ -82,7 +82,7 @@ public class Player : MonoBehaviour
         ForcePush = 50;
         Bash = 0.2f;
 
-        rigidbody = GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
         //rigidbody.
     }
 
@@ -107,7 +107,7 @@ public class Player : MonoBehaviour
 
             //Debug.Log(Vector3.Distance(newPosition, transform.position) / Time.deltaTime);
 
-            rigidbody.MovePosition(Target);
+            rb.MovePosition(Target);
 
             OnMove(Direction);
         }
@@ -160,7 +160,7 @@ public class Player : MonoBehaviour
     void GetPush(Vector3 EnemyPosition)
     {
         Vector3 dirCollision = -(EnemyPosition - transform.position);
-        rigidbody.AddForce((dirCollision.normalized) * ForcePush, ForceMode2D.Impulse);
+        rb.AddForce((dirCollision.normalized) * ForcePush, ForceMode2D.Impulse);
     }
     
     void GetFreezeForSec(float time)

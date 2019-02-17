@@ -98,7 +98,7 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 2
+  m_Mass: 3
   m_LinearDrag: 25
   m_AngularDrag: 0
   m_GravityScale: 0
@@ -154,9 +154,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3725347038b342a4499477a9d167915a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  curHealth: 0
+  curHealth: 100
   maxHealth: 100
+  DamagePoint: 10
   HealthBar: {fileID: 0}
+  ForcePush: 10000
 --- !u!114 &1840717370727039842
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -169,11 +171,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9d56ede93a61354faf4efdcd239a511, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  direction: {x: 0, y: 0, z: 0}
-  Speed: 4
+  Speed: 3
   objHit: {fileID: 5284633365634059638, guid: b1c22294380723a48b1bfa4f2e56f123, type: 3}
-  SpeedAttack: 0.2
-  DistanceAttack: 1
+  SpeedAttack: 0.5
+  DistanceAttack: 2
 --- !u!114 &1840717370727039841
 MonoBehaviour:
   m_ObjectHideFlags: 0

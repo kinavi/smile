@@ -14938,11 +14938,6 @@ PrefabInstance:
       propertyPath: HealthBar
       value: 
       objectReference: {fileID: 507272486}
-    - target: {fileID: 1840717370727039843, guid: f7e089425d8b03e4994cd09512506a94,
-        type: 3}
-      propertyPath: ForcePush
-      value: 100
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f7e089425d8b03e4994cd09512506a94, type: 3}
 --- !u!1001 &1843667269852162139

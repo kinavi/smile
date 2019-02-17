@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 2772816129540195100}
   - component: {fileID: 8794162152525419639}
   - component: {fileID: 1446430497}
+  - component: {fileID: 793056503510472739}
   m_Layer: 0
   m_Name: FireBoll
   m_TagString: Untagged
@@ -114,3 +115,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TimeLive: 3
   SpeedBolt: 5
+  DamagePoint: 10
+--- !u!70 &793056503510472739
+CapsuleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1460336791942224899}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_Size: {x: 0.6666667, y: 0.93333334}
+  m_Direction: 0

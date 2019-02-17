@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace Assets.EventArgs
 {
-    public enum EnemyType { Simple }
+    public enum EnemyType { Simple, FireBoll }
 
     public class EnemyEventArgs
     {
