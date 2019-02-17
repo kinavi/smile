@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class PlayerEngineController : MonoBehaviour
 {
-    [SerializeField]
     private Vector3 direction;
 
     private Rigidbody2D rigidbody;
-    public float Speed;
+    public int Speed;
 
     public GameObject objHit;
     public float SpeedAttack;
